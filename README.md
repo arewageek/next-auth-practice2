@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next-auth-practice2
+
+Next-auth-practice2 is a project focused on helping you learn Next Auth, a flexible authentication library for Next.js applications. This project provides a practical environment for experimenting with Next Auth and understanding its features.
+
+## Description
+
+The purpose of Next-auth-practice2 is to facilitate learning and experimentation with Next Auth. By building and exploring this project, you'll gain a better understanding of how to implement authentication and authorization in Next.js applications using Next Auth.
+
+## Tools Used
+
+- **Next.js 14**: A React framework for building server-side rendered and static web applications.
+- **Bun**: A JavaScript runtime, package manager, test runner, and bundler built from scratch using the Zig programming language. It is designed as a drop-in replacement for Node.js and uses WebKit's JavaScriptCore as the JavaScript engine.
+- **Next-auth**: An authentication library for Next.js applications, offering various authentication strategies and features.
+- **Prisma**: A modern database toolkit for Node.js and TypeScript, providing an ORM (Object-Relational Mapping) layer for working with databases.
 
 ## Getting Started
 
-First, run the development server:
+To get started with Next-auth-practice2, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Clone the repository:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   git clone https://github.com/your-username/next-auth-practice2.git
+   cd next-auth-practice2
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. Install dependencies: `bun install`
 
-## Learn More
+3. Configure Next Auth and Prisma based on your requirements.
 
-To learn more about Next.js, take a look at the following resources:
+4. Start the development server: `bun run dev`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Explore the project and experiment with Next Auth features.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Contributing
 
-## Deploy on Vercel
+Contributions to Next-auth-practice2 are welcome! If you have suggestions for improvements, new features, or bug fixes, feel free to open an issue or submit a pull request.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+Author: Arewa Geek
+
+GitHub Repository: [Next-auth-practice2](http://github.com/arewageek/next-auth-practice2)
