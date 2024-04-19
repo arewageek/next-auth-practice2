@@ -20,7 +20,7 @@ To get started with Next-auth-practice2, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/next-auth-practice2.git
+   git clone https://github.com/arewageek/next-auth-practice2.git
    cd next-auth-practice2
 
    ```
@@ -41,6 +41,6 @@ Contributions to Next-auth-practice2 are welcome! If you have suggestions for im
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-Author: Arewa Geek
+_Author:_ Arewa Geek
 
-GitHub Repository: [Next-auth-practice2](http://github.com/arewageek/next-auth-practice2)
+_GitHub Repository:_ [Next-auth-practice2](http://github.com/arewageek/next-auth-practice2)
