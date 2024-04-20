@@ -34,10 +34,13 @@ export const authOptions: AuthOptions = {
         if (!credentials?.password)
           throw new Error("Please provide a password");
 
-        const isPasswordCorrect = await bcrypt.compare(
-          credentials?.password,
-          user.password
-        );
+        // bcrypt not working
+        // const isPasswordCorrect = await bcrypt.compare(
+        //   credentials?.password,
+        //   user.password
+        // );
+
+        const isPasswordCorrect = credentials?.password === user.password;
 
         if (!isPasswordCorrect) throw new Error("Password is incorrect");
 

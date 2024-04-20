@@ -8,11 +8,15 @@ import {
   UserIcon,
 } from "@heroicons/react/16/solid";
 import { Button, Checkbox, Input, Link } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import validator from "validator";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { passwordStrength } from "check-password-strength";
+import PasswordStrength from "./PasswordStrength";
+import { registerUser } from "@/lib/actions.authActions";
+import { toast } from "react-toastify";
 
 const FormSchema = z
   .object({
@@ -44,7 +48,7 @@ const FormSchema = z
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password and confirm password did not match",
-    path: ["password", "confirmPassword"],
+    path: ["confirmPassword"],
   });
 
 type InputType = z.infer<typeof FormSchema>;
@@ -55,17 +59,32 @@ const SignupForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    watch,
   } = useForm<InputType>({
     resolver: zodResolver(FormSchema),
   });
 
-  const [isVisiblePassword, setIsVisibilePassword] = useState(true);
+  const [isVisiblePassword, setIsVisibilePassword] = useState<boolean>(true);
+  const [passStrength, setPassStrength] = useState<number>(0);
 
   const toggleIsVisiblePass = () => setIsVisibilePassword((prev) => !prev);
 
   const saveUser: SubmitHandler<InputType> = async (data) => {
     console.log({ data });
+    const { accepted, confirmPassword, ...user } = data;
+    try {
+      const result = await registerUser(user);
+      toast.success("Your account has been created successfully");
+    } catch (err) {
+      toast.error("Something went wrong");
+      console.log(err);
+    }
   };
+
+  // update password strength
+  useEffect(() => {
+    setPassStrength(passwordStrength(watch().password).id);
+  }, [watch().password]);
 
   return (
     <form
@@ -123,6 +142,8 @@ const SignupForm = () => {
         }
         className="col-span-2"
       />
+
+      <PasswordStrength passStrength={passStrength} />
 
       <Input
         errorMessage={errors.confirmPassword?.message}
