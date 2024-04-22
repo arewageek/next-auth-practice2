@@ -15,7 +15,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { passwordStrength } from "check-password-strength";
 import PasswordStrength from "./PasswordStrength";
-import { registerUser } from "@/lib/actions.authActions";
+import { registerUser } from "@/lib/actions/authActions";
 import { toast } from "react-toastify";
 
 const FormSchema = z

@@ -4,6 +4,7 @@ import * as bcrypt from "bcrypt";
 
 import prisma from "@/lib/prisma";
 import NextAuth from "next-auth/next";
+import { User } from "@prisma/client";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -29,7 +30,7 @@ export const authOptions: AuthOptions = {
           },
         });
 
-        if (!user) throw new Error("Email or Password is not correct");
+        if (!user) throw new Error("Seems your email is incorrect");
 
         if (!credentials?.password)
           throw new Error("Please provide a password");
@@ -50,6 +51,20 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.user = user as User;
+      return token;
+    },
+    async session({ token, session }) {
+      session.user = token.user;
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/auth/signin",
+  },
 };
 
 const handler = NextAuth(authOptions);
