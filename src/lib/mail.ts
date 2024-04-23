@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import Handlebars from "handlebars";
 import { activationTemplate } from "./emailTemplates/activation";
+import { passwordResetTemplate } from "./emailTemplates/resetPasswordTemplate";
 
 interface Props {
   to: string;
@@ -39,6 +40,17 @@ export async function sendMail({ to, subject, body }: Props) {
 
 export function compileActivationTemplate(name: string, url: string) {
   const template = Handlebars.compile(activationTemplate);
+
+  const htmlBody = template({
+    name,
+    url,
+  });
+
+  return htmlBody;
+}
+
+export function compileResetPasswordTemplate(name: string, url: string) {
+  const template = Handlebars.compile(passwordResetTemplate);
 
   const htmlBody = template({
     name,

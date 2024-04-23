@@ -55,7 +55,7 @@ const SigninForm = (props: Props) => {
   };
 
   return (
-    <div className="w-full md:w-1/3 ">
+    <div className="w-full md:w-1/2 lg:w-1/3">
       <form
         onSubmit={handleSubmit(submitForm)}
         className="flex flex-col gap-2 border rounded-md shadow overflow-hidden"
@@ -91,7 +91,12 @@ const SigninForm = (props: Props) => {
           />
 
           <div className="flex justify-center items-center gap-3">
-            <Button color="primary" type="submit" disabled={isSubmitting}>
+            <Button
+              isLoading={isSubmitting}
+              color="primary"
+              type="submit"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Signing In" : "Sign In"}
             </Button>
             <Button as={Link} href="/auth/signup">

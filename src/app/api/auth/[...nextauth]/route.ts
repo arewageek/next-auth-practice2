@@ -45,6 +45,9 @@ export const authOptions: AuthOptions = {
 
         if (!isPasswordCorrect) throw new Error("Password is incorrect");
 
+        if (!user.emailVerified)
+          throw new Error("Please verify your email first");
+
         const { password, ...userWithoutPass } = user;
 
         return userWithoutPass;

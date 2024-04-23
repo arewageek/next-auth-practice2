@@ -14,7 +14,7 @@ const SigninPage = ({ searchParams }: Props) => {
   return (
     <div className="p-5 md:p-12 flex flex-col items-center gap-5">
       <SigninForm callbackUrl={searchParams.callbackUrl} />
-      <Link href={"/auth/forgotpass"}>Forgot Your Password?</Link>
+      <Link href={"/auth/forgot-password"}>Forgot Your Password?</Link>
     </div>
   );
 };

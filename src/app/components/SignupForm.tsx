@@ -41,7 +41,7 @@ const FormSchema = z
     confirmPassword: z
       .string()
       .min(6, "Password must be at least 6 characters")
-      .max(50, "Password must be"),
+      .max(50, "Password must be at most 50 characters"),
     accepted: z.literal(true, {
       errorMap: () => ({ message: "Please accept all terms" }),
     }),
@@ -58,7 +58,7 @@ const SignupForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     watch,
   } = useForm<InputType>({
     resolver: zodResolver(FormSchema),
@@ -163,7 +163,12 @@ const SignupForm = () => {
       )}
 
       <div className="col-span-2 flex justify-center">
-        <Button type="submit" className="w-48" color="primary">
+        <Button
+          isLoading={isSubmitting}
+          type="submit"
+          className="w-48"
+          color="primary"
+        >
           Submit
         </Button>
       </div>
