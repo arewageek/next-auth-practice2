@@ -2,8 +2,13 @@
 
 import { User } from "@prisma/client";
 import prisma from "../prisma";
-import { compileActivationTemplate, sendMail } from "../mail";
+import {
+  compileActivationTemplate,
+  compileResetPasswordTemplate,
+  sendMail,
+} from "../mail";
 import { signJwt, verifyJwt } from "../jwt";
+import { toast } from "react-toastify";
 // import * as bcrypt from "bcrypt";
 
 export async function registerUser(
@@ -54,6 +59,64 @@ export const activateUser: ActivateUserFunc = async (jwtUserId) => {
     where: { id: userId },
     data: { emailVerified: new Date() },
   });
+
+  return "success";
+};
+
+export async function forgotPassword(email: string) {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user) {
+    throw new Error("Seems your email is incorrect");
+  }
+
+  const jwtUserId = signJwt({ id: user.id });
+
+  const resetPasswordUrl = `${process.env.NEXTAUTH_URL}/auth/reset-password/${jwtUserId}`;
+
+  const body = compileResetPasswordTemplate(user.firstName, resetPasswordUrl);
+
+  const sent = await sendMail({
+    to: user.email,
+    subject: "Reset your password",
+    body,
+  });
+
+  console.log(sent);
+
+  return "success";
+}
+
+type ResetPassFunc = (
+  jwtUserId: string,
+  newPassword: string
+) => Promise<"invalidLink" | "errorOccurred" | "userNotExist" | "success">;
+
+export const resetPasswordFunc: ResetPassFunc = async (
+  jwtUserId,
+  newPassword
+) => {
+  const payload = verifyJwt(jwtUserId);
+
+  if (!payload) return "userNotExist";
+
+  const userId = payload?.id;
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) return "userNotExist";
+
+  const result = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      password: newPassword,
+    },
+  });
+  console.log(result);
 
   return "success";
 };
