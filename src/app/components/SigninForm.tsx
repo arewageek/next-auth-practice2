@@ -91,7 +91,12 @@ const SigninForm = (props: Props) => {
           />
 
           <div className="flex justify-center items-center gap-3">
-            <Button color="primary" type="submit" disabled={isSubmitting}>
+            <Button
+              isLoading={isSubmitting}
+              color="primary"
+              type="submit"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Signing In" : "Sign In"}
             </Button>
             <Button as={Link} href="/auth/signup">

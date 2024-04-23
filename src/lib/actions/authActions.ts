@@ -3,6 +3,7 @@
 import { User } from "@prisma/client";
 import prisma from "../prisma";
 import { compileActivationTemplate, sendMail } from "../mail";
+import { signJwt, verifyJwt } from "../jwt";
 // import * as bcrypt from "bcrypt";
 
 export async function registerUser(
@@ -19,7 +20,9 @@ export async function registerUser(
     data: user,
   });
 
-  const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${result.id}`;
+  const jwtUserId = signJwt({ id: result.id });
+
+  const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
 
   const body = compileActivationTemplate(user.firstName, activationUrl);
 
@@ -29,3 +32,28 @@ export async function registerUser(
     body,
   });
 }
+
+type ActivateUserFunc = (
+  jwtUserId: string
+) => Promise<"invalidLink" | "userNotExist" | "alreadyActivated" | "success">;
+
+export const activateUser: ActivateUserFunc = async (jwtUserId) => {
+  const payload = verifyJwt(jwtUserId);
+
+  if (!payload) return "invalidLink";
+
+  const userId = payload?.id;
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) return "userNotExist";
+  if (user.emailVerified) return "alreadyActivated";
+
+  const result = await prisma.user.update({
+    where: { id: userId },
+    data: { emailVerified: new Date() },
+  });
+
+  return "success";
+};
